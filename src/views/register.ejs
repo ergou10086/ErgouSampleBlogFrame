@@ -1,0 +1,41 @@
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <h3 class="card-title text-center mb-4">注册</h3>
+                
+                <% if (typeof success !== 'undefined' && success && message) { %>
+                    <div class="alert alert-success" role="alert">
+                        <%= message %>
+                    </div>
+                <% } else if (error) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= error %>
+                    </div>
+                <% } %>
+                
+                <form action="/auth/register" method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">用户名</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">邮箱</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">密码</label>
+                        <input type="password" class="form-control" id="password" name="password" required minlength="6">
+                        <small class="form-text text-muted">密码至少6位</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">注册</button>
+                </form>
+                
+                <div class="text-center mt-3">
+                    <p>已有账号？<a href="/auth/login">立即登录</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

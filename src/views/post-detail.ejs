@@ -1,0 +1,50 @@
+<% if (post) { %>
+    <article class="card">
+        <div class="card-body">
+            <h1 class="card-title"><%= post.title %></h1>
+            <div class="text-muted mb-4">
+                <small>
+                    <i class="bi bi-person"></i> 
+                    <%= post.user_profiles?.display_name || post.user_profiles?.username || '匿名' %>
+                    <span class="ms-3">
+                        <i class="bi bi-calendar"></i> 
+                        <%= new Date(post.published_at || post.created_at).toLocaleString('zh-CN') %>
+                    </span>
+                    <span class="ms-3">
+                        <i class="bi bi-eye"></i> <%= post.view_count || 0 %> 次浏览
+                    </span>
+                </small>
+            </div>
+            
+            <div class="post-content">
+                <%- post.contentHtml || post.content %>
+            </div>
+            
+            <% if (typeof user !== 'undefined' && user && user.id === post.user_id) { %>
+                <hr>
+                <div class="d-flex gap-2">
+                    <a href="/posts/<%= post.slug %>/edit" class="btn btn-outline-primary">
+                        <i class="bi bi-pencil"></i> 编辑
+                    </a>
+                    <form action="/posts/<%= post.slug %>/delete" method="POST" class="d-inline" 
+                          onsubmit="return confirm('确定要删除这篇文章吗？');">
+                        <button type="submit" class="btn btn-outline-danger">
+                            <i class="bi bi-trash"></i> 删除
+                        </button>
+                    </form>
+                </div>
+            <% } %>
+        </div>
+    </article>
+    
+    <div class="mt-4">
+        <a href="/" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> 返回首页
+        </a>
+    </div>
+<% } else { %>
+    <div class="alert alert-warning" role="alert">
+        文章不存在
+    </div>
+<% } %>
+

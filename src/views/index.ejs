@@ -1,0 +1,93 @@
+<% if (typeof error !== 'undefined' && error) { %>
+    <div class="alert alert-danger" role="alert">
+        <%= error %>
+    </div>
+<% } %>
+
+<div class="row">
+    <div class="col-lg-8">
+        <h2 class="mb-4">最新文章</h2>
+        
+        <% if (posts && posts.length > 0) { %>
+            <% posts.forEach(post => { %>
+                <div class="card post-card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="/posts/<%= post.slug %>" class="text-decoration-none text-dark">
+                                <%= post.title %>
+                            </a>
+                        </h5>
+                        <p class="card-text text-muted">
+                            <small>
+                                <i class="bi bi-person"></i> 
+                                <%= post.user_profiles?.display_name || post.user_profiles?.username || '匿名' %>
+                                <span class="ms-3">
+                                    <i class="bi bi-calendar"></i> 
+                                    <%= new Date(post.published_at || post.created_at).toLocaleDateString('zh-CN') %>
+                                </span>
+                                <span class="ms-3">
+                                    <i class="bi bi-eye"></i> <%= post.view_count || 0 %>
+                                </span>
+                            </small>
+                        </p>
+                        <p class="card-text">
+                            <%= post.excerpt || post.content.substring(0, 200) %>...
+                        </p>
+                        <a href="/posts/<%= post.slug %>" class="btn btn-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+            <% }); %>
+            
+            <!-- 分页 -->
+            <nav aria-label="文章分页">
+                <ul class="pagination justify-content-center">
+                    <% if (hasPrevPage) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="/?page=<%= currentPage - 1 %>">上一页</a>
+                        </li>
+                    <% } else { %>
+                        <li class="page-item disabled">
+                            <span class="page-link">上一页</span>
+                        </li>
+                    <% } %>
+                    
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                        <% if (i === currentPage) { %>
+                            <li class="page-item active">
+                                <span class="page-link"><%= i %></span>
+                            </li>
+                        <% } else { %>
+                            <li class="page-item">
+                                <a class="page-link" href="/?page=<%= i %>"><%= i %></a>
+                            </li>
+                        <% } %>
+                    <% } %>
+                    
+                    <% if (hasNextPage) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="/?page=<%= currentPage + 1 %>">下一页</a>
+                        </li>
+                    <% } else { %>
+                        <li class="page-item disabled">
+                            <span class="page-link">下一页</span>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+        <% } else { %>
+            <div class="alert alert-info" role="alert">
+                暂无文章，<a href="/posts/create/new">写一篇吧</a>！
+            </div>
+        <% } %>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">关于</h5>
+                <p class="card-text">这是一个使用 Node.js + Express + EJS + Supabase 构建的简易博客系统。</p>
+            </div>
+        </div>
+    </div>
+</div>
+
