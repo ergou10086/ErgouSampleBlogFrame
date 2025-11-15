@@ -1,5 +1,6 @@
 [build]
-  command = "npm install"
+  # 明确使用 npm，忽略 pnpm
+  command = "rm -f pnpm-lock.yaml && npm ci --legacy-peer-deps"
   functions = "netlify/functions"
   publish = ".netlify"
 
