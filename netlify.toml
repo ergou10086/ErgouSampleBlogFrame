@@ -9,6 +9,12 @@
   # 确保使用 npm
   NETLIFY_USE_PNPM = "false"
   NPM_FLAGS = "--legacy-peer-deps"
+  # AWS Lambda 环境变量（Netlify Functions 基于 Lambda）
+  AWS_LAMBDA_JS_RUNTIME = "nodejs18.x"
+
+[functions]
+  # 确保函数可以访问项目根目录的文件和依赖
+  included_files = ["src/**", "node_modules/**", "app.js", "package.json"]
 
 [[redirects]]
   from = "/*"

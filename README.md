@@ -417,6 +417,10 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 - **环境变量设置后需要重新部署才能生效**
 - 建议使用 Netlify 的环境变量管理功能，不要将敏感信息提交到代码仓库
 - **包管理器**：项目使用 npm，确保 `package-lock.json` 已提交到仓库
+- **如果遇到 "Cannot find module" 错误**：
+  - 确保所有依赖都在 `package.json` 的 `dependencies` 中（不在 `devDependencies`）
+  - 检查 `netlify.toml` 中的 `included_files` 配置是否正确
+  - 重新部署后，Netlify 会自动打包所有依赖
 
 ### 其他部署平台推荐
 
