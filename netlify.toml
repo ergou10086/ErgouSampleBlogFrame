@@ -1,12 +1,12 @@
 [build]
-  # 明确使用 npm，忽略 pnpm
-  command = "rm -f pnpm-lock.yaml && npm ci --legacy-peer-deps"
+  # 使用 npm 安装依赖
+  command = "npm ci --legacy-peer-deps"
   functions = "netlify/functions"
   publish = ".netlify"
 
 [build.environment]
   NODE_VERSION = "18"
-  # 禁用 pnpm，强制使用 npm
+  # 确保使用 npm
   NETLIFY_USE_PNPM = "false"
   NPM_FLAGS = "--legacy-peer-deps"
 

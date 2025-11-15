@@ -1,8 +1,8 @@
 # Dependencies
 node_modules/
-# package-lock.json 应该被提交到仓库（Netlify 需要）
+# package-lock.json 应该被提交到仓库（Netlify 需要，不要忽略）
 yarn.lock
-pnpm-lock.yaml  # 忽略 pnpm-lock.yaml，使用 npm
+pnpm-lock.yaml  # 项目使用 npm，忽略 pnpm 相关文件
 
 # Environment variables
 .env
