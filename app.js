@@ -72,8 +72,13 @@ app.use((req, res) => {
 // 错误处理
 app.use(errorHandler);
 
-// 启动服务器
-app.listen(PORT, () => {
-  console.log(`服务器运行在 http://localhost:${PORT}`);
-});
+// 启动服务器（仅在非 serverless 环境）
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`服务器运行在 http://localhost:${PORT}`);
+  });
+}
+
+// 导出 app 以供 serverless 使用
+module.exports = app;
 

@@ -293,6 +293,119 @@ const limit = 10; // 修改为你想要的数量
 
 5. **启用邮箱确认**：生产环境建议启用邮箱验证
 
+## 🚀 部署指南
+
+### 部署到 Netlify
+
+Netlify 支持通过 Serverless Functions 部署 Express 应用。项目已配置好相关文件。
+
+#### 前置准备
+
+1. 确保项目已推送到 Git 仓库（GitHub、GitLab 或 Bitbucket）
+2. 在 Netlify 上创建账号并登录
+
+#### 部署步骤
+
+**方式一：通过 Netlify Dashboard 部署（推荐）**
+
+1. 访问 [Netlify Dashboard](https://app.netlify.com/)
+2. 点击 "Add new site" > "Import an existing project"
+3. 选择你的 Git 提供商并授权
+4. 选择项目仓库
+5. 配置构建设置：
+   - **Build command**: `npm install`
+   - **Publish directory**: `.netlify`（或留空）
+   - **Functions directory**: `netlify/functions`
+6. 点击 "Show advanced" 添加环境变量：
+   ```
+   SUPABASE_URL=your_supabase_project_url
+   SUPABASE_ANON_KEY=your_supabase_anon_key
+   SESSION_SECRET=your-session-secret-key
+   NODE_ENV=production
+   ```
+7. 点击 "Deploy site"
+
+**方式二：使用 Netlify CLI**
+
+1. 安装 Netlify CLI：
+   ```bash
+   npm install -g netlify-cli
+   ```
+
+2. 登录 Netlify：
+   ```bash
+   netlify login
+   ```
+
+3. 在项目根目录初始化：
+   ```bash
+   netlify init
+   ```
+
+4. 设置环境变量：
+   ```bash
+   netlify env:set SUPABASE_URL your_supabase_project_url
+   netlify env:set SUPABASE_ANON_KEY your_supabase_anon_key
+   netlify env:set SESSION_SECRET your-session-secret-key
+   netlify env:set NODE_ENV production
+   ```
+
+5. 部署：
+   ```bash
+   netlify deploy --prod
+   ```
+
+#### 注意事项
+
+- Netlify Functions 有执行时间限制（免费版 10 秒，Pro 版 26 秒）
+- Session 存储可能需要使用外部存储（如 Redis）或数据库
+- 建议使用 Netlify 的环境变量管理功能，不要将敏感信息提交到代码仓库
+
+### 其他部署平台推荐
+
+由于 Express SSR 应用的特性，以下平台可能更适合：
+
+#### 1. Railway（推荐）
+
+Railway 对 Node.js 应用支持很好，部署简单：
+
+1. 访问 [Railway](https://railway.app/)
+2. 使用 GitHub 账号登录
+3. 点击 "New Project" > "Deploy from GitHub repo"
+4. 选择项目仓库
+5. 添加环境变量
+6. 自动部署完成
+
+#### 2. Render
+
+1. 访问 [Render](https://render.com/)
+2. 创建账号并连接 GitHub
+3. 点击 "New" > "Web Service"
+4. 选择项目仓库
+5. 配置：
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+   - 添加环境变量
+6. 点击 "Create Web Service"
+
+#### 3. Vercel
+
+Vercel 对 Node.js 支持很好，但需要稍微调整配置：
+
+1. 访问 [Vercel](https://vercel.com/)
+2. 使用 GitHub 账号登录
+3. 导入项目
+4. 配置环境变量
+5. 部署
+
+#### 4. Heroku
+
+1. 安装 Heroku CLI
+2. 登录：`heroku login`
+3. 创建应用：`heroku create your-app-name`
+4. 设置环境变量：`heroku config:set KEY=value`
+5. 部署：`git push heroku main`
+
 ## 📝 开发说明
 
 这是一个学习项目，适合：
