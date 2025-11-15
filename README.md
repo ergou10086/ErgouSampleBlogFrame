@@ -360,6 +360,10 @@ Netlify 支持通过 Serverless Functions 部署 Express 应用。项目已配�
 - Netlify Functions 有执行时间限制（免费版 10 秒，Pro 版 26 秒）
 - Session 存储可能需要使用外部存储（如 Redis）或数据库
 - 建议使用 Netlify 的环境变量管理功能，不要将敏感信息提交到代码仓库
+- **如果遇到 pnpm-lock.yaml 错误**：
+  - 项目已配置为使用 npm，如果仓库中有 `pnpm-lock.yaml` 文件，可以删除它
+  - 或者确保 `pnpm-lock.yaml` 与 `package.json` 同步（在本地运行 `pnpm install` 后提交）
+  - `netlify.toml` 中已设置 `NETLIFY_USE_PNPM = "false"` 强制使用 npm
 
 ### 其他部署平台推荐
 

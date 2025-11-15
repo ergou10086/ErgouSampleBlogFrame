@@ -5,6 +5,9 @@
 
 [build.environment]
   NODE_VERSION = "18"
+  # 禁用 pnpm，强制使用 npm
+  NETLIFY_USE_PNPM = "false"
+  NPM_FLAGS = "--legacy-peer-deps"
 
 [[redirects]]
   from = "/*"
