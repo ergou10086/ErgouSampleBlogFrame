@@ -316,14 +316,8 @@ Netlify 支持通过 Serverless Functions 部署 Express 应用。项目已配�
    - **Build command**: `npm install`
    - **Publish directory**: `.netlify`（或留空）
    - **Functions directory**: `netlify/functions`
-6. 点击 "Show advanced" 添加环境变量：
-   ```
-   SUPABASE_URL=your_supabase_project_url
-   SUPABASE_ANON_KEY=your_supabase_anon_key
-   SESSION_SECRET=your-session-secret-key
-   NODE_ENV=production
-   ```
-7. 点击 "Deploy site"
+6. 点击 "Deploy site"（环境变量可以在部署后添加，见下方说明）
+7. **重要：部署后设置环境变量**（见下方详细步骤）
 
 **方式二：使用 Netlify CLI**
 
@@ -355,10 +349,72 @@ Netlify 支持通过 Serverless Functions 部署 Express 应用。项目已配�
    netlify deploy --prod
    ```
 
+#### 设置环境变量（重要！）
+
+部署成功后，必须设置环境变量才能正常运行。有两种方式：
+
+**方式一：通过 Netlify Dashboard 设置（推荐）**
+
+1. 在 Netlify Dashboard 中，进入你的项目
+2. 点击左侧菜单的 **"Site configuration"** 或 **"Project configuration"**
+3. 点击 **"Environment variables"** 或 **"Environment"**
+4. 点击 **"Add a variable"** 或 **"Add variable"** 按钮
+5. 添加以下环境变量（每个变量单独添加）：
+
+   | 变量名 | 值 | 说明 |
+   |--------|-----|------|
+   | `SUPABASE_URL` | 你的 Supabase 项目 URL | 在 Supabase Dashboard > Settings > API 中获取 |
+   | `SUPABASE_ANON_KEY` | 你的 Supabase anon key | 在 Supabase Dashboard > Settings > API 中获取 |
+   | `SESSION_SECRET` | 随机字符串 | 用于加密 session，可以使用：`node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` 生成 |
+   | `NODE_ENV` | `production` | 生产环境标识 |
+
+6. 每个变量添加后，选择作用域：
+   - **All scopes** - 所有环境（推荐）
+   - **Production** - 仅生产环境
+   - **Deploy previews** - 仅预览环境
+   - **Branch deploys** - 仅分支部署
+
+7. 点击 **"Save"** 保存每个变量
+8. 保存后，Netlify 会自动触发新的部署，或者你可以手动点击 **"Trigger deploy"** > **"Deploy site"**
+
+**方式二：使用 Netlify CLI**
+
+```bash
+# 设置环境变量
+netlify env:set SUPABASE_URL "your_supabase_project_url"
+netlify env:set SUPABASE_ANON_KEY "your_supabase_anon_key"
+netlify env:set SESSION_SECRET "your-session-secret-key"
+netlify env:set NODE_ENV "production"
+
+# 查看已设置的环境变量
+netlify env:list
+
+# 触发重新部署
+netlify deploy --prod
+```
+
+**获取 Supabase 环境变量：**
+
+1. 登录 [Supabase Dashboard](https://app.supabase.com/)
+2. 选择你的项目
+3. 点击左侧菜单的 **"Settings"**（齿轮图标）
+4. 点击 **"API"**
+5. 在 **"Project URL"** 下复制 URL（这就是 `SUPABASE_URL`）
+6. 在 **"Project API keys"** 下找到 **"anon public"** key（这就是 `SUPABASE_ANON_KEY`）
+
+**生成 SESSION_SECRET：**
+
+在本地运行以下命令生成一个安全的随机字符串：
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
 #### 注意事项
 
 - Netlify Functions 有执行时间限制（免费版 10 秒，Pro 版 26 秒）
 - Session 存储可能需要使用外部存储（如 Redis）或数据库
+- **环境变量设置后需要重新部署才能生效**
 - 建议使用 Netlify 的环境变量管理功能，不要将敏感信息提交到代码仓库
 - **包管理器**：项目使用 npm，确保 `package-lock.json` 已提交到仓库
 
